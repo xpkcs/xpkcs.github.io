@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The `protect-main` ruleset requires a check named exactly `ci`.
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Types and frontmatter schema
+        run: pnpm check
+      - name: Color contrast
+        run: pnpm check:contrast
+      - name: Image alt text
+        run: pnpm check:alt
+      - name: Build
+        run: pnpm build
+
+      - name: Internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress --root-dir ${{ github.workspace }}/dist 'dist/**/*.html'
+          fail: true
+
+      - name: Upload built site for preview
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: dist
+          retention-days: 7

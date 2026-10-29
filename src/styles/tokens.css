@@ -1,0 +1,71 @@
+/*
+ * Design tokens. Every color is `light-dark(<light>, <dark>)` so
+ * scripts/check-contrast.ts can read both themes from this file.
+ * Light: warm paper with deep inks. Dark: soft indigo slate with neon.
+ */
+:root {
+  color-scheme: light dark;
+
+  /* surfaces */
+  --bg: light-dark(oklch(0.972 0.014 85), oklch(0.29 0.024 278));
+  --surface: light-dark(oklch(0.948 0.018 82), oklch(0.325 0.027 278));
+  --surface-2: light-dark(oklch(0.922 0.021 80), oklch(0.365 0.03 278));
+  --line: light-dark(oklch(0.865 0.022 78), oklch(0.43 0.032 278));
+
+  /* text */
+  --fg: light-dark(oklch(0.27 0.022 55), oklch(0.94 0.012 278));
+  --fg-muted: light-dark(oklch(0.46 0.024 60), oklch(0.79 0.022 278));
+  --fg-faint: light-dark(oklch(0.6 0.02 65), oklch(0.6 0.03 278));
+
+  /* accents: deep inks on paper, neon on slate */
+  --cyan: light-dark(oklch(0.5 0.1 220), oklch(0.86 0.13 205));
+  --magenta: light-dark(oklch(0.52 0.2 352), oklch(0.77 0.2 345));
+  --lime: light-dark(oklch(0.5 0.13 142), oklch(0.9 0.2 133));
+  --amber: light-dark(oklch(0.52 0.12 62), oklch(0.86 0.15 80));
+  --violet: light-dark(oklch(0.5 0.18 295), oklch(0.78 0.15 300));
+
+  /* glow strength: 0% (no glow) on paper, set per theme below */
+  --glow-mix: 0%;
+
+  /* type */
+  --font-mono-stack: var(--font-mono), ui-monospace, monospace;
+  --font-serif-stack: var(--font-serif), Georgia, serif;
+  --step--2: 0.75rem;
+  --step--1: 0.875rem;
+  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.45rem, 1.25rem + 0.8vw, 1.8rem);
+  --step-3: clamp(1.9rem, 1.4rem + 2vw, 2.75rem);
+
+  /* layout */
+  --measure: 40rem;
+  --margin-col: 15rem;
+  --gap: 3rem;
+  --gutter: 1rem;
+  --radius: 0.5rem;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --glow-mix: 55%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --glow-mix: 55%;
+  }
+}
+
+/* text-shadow glow tinted by the element's own color; invisible on paper */
+.glow {
+  text-shadow:
+    0 0 0.35em color-mix(in oklch, currentColor var(--glow-mix), transparent),
+    0 0 1.2em color-mix(in oklch, currentColor calc(var(--glow-mix) / 2), transparent);
+}

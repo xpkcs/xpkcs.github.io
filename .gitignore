@@ -1,0 +1,21 @@
+# build
+dist/
+.astro/
+node_modules/
+
+# env
+.env
+.env.*
+
+# os / editors
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# obsidian: commit settings, never per-device workspace state
+src/content/.obsidian/workspace*.json
+src/content/.obsidian/cache
+src/content/.obsidian/plugins/
+src/content/.obsidian/themes/
+src/content/.trash/

@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { getPublishedPosts } from '../lib/posts';
+import { SITE } from '../lib/site';
+
+const recent = (await getPublishedPosts()).slice(0, 8);
+---
+
+<Base>
+  <section class="page-head measure">
+    <h1>
+      <span class="glow" style="color: var(--lime)">hello</span>, world.
+    </h1>
+    <p class="lede">{SITE.description}</p>
+    <hr class="rule" />
+  </section>
+
+  <h2 class="section-label">recent</h2>
+  <div class="measure">
+    {recent.length > 0 ? <PostList posts={recent} /> : <p class="meta">nothing here yet.</p>}
+  </div>
+  {
+    recent.length > 0 && (
+      <p class="meta">
+        <a href="/posts/">all posts →</a>
+      </p>
+    )
+  }
+</Base>

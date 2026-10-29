@@ -1,0 +1,15 @@
+---
+import { SITE } from '../lib/site';
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© {new Date().getFullYear()} {SITE.author}</span>
+    <a href="/rss.xml">rss</a>
+    <a href={SITE.repo}>source</a>
+    <span class="spacer"></span>
+    <button class="tool-btn" type="button" data-open-help>
+      press <kbd>?</kbd> for shortcuts
+    </button>
+  </div>
+</footer>

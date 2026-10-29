@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+const FILTERS = [
+  { id: 'all', label: 'all' },
+  { id: 'essay', label: 'essays' },
+  { id: 'post', label: 'posts' },
+];
+---
+
+<Base title="posts" description="Everything, newest first.">
+  <section class="page-head measure">
+    <h1>posts</h1>
+    <p class="lede">Everything, newest first. Essays are the longer ones.</p>
+    <hr class="rule" />
+  </section>
+
+  <div class="measure kind-filter">
+    <fieldset class="filters">
+      <legend class="sr-only">Show</legend>
+      {
+        FILTERS.map((f, i) => (
+          <label>
+            <input type="radio" name="kind" value={f.id} checked={i === 0} />
+            {f.label}
+          </label>
+        ))
+      }
+    </fieldset>
+    <PostList posts={posts} />
+  </div>
+</Base>
+
+<style>
+  .filters {
+    border: 0;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+  .filters label {
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: color 0.15s, background-color 0.15s;
+  }
+  .filters label:hover {
+    color: var(--fg);
+  }
+  .filters input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .filters label:has(input:checked) {
+    color: var(--bg);
+    background: var(--fg);
+    border-color: var(--fg);
+  }
+  .filters label:has(input:focus-visible) {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+  .kind-filter:has(input[value='essay']:checked) :global(li:not([data-kind='essay'])),
+  .kind-filter:has(input[value='post']:checked) :global(li:not([data-kind='post'])) {
+    display: none;
+  }
+</style>

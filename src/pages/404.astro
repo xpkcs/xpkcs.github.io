@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404" description="Not found.">
+  <section class="page-head measure">
+    <p class="meta"><span style="color: var(--magenta)">✗</span> exit 404</p>
+    <h1>no such file or directory</h1>
+    <p class="lede">The page you asked for isn't here. It may have moved, or never existed.</p>
+    <hr class="rule" />
+  </section>
+  <p class="meta">
+    <a href="/">cd ~</a>
+    <span class="sep">·</span>
+    <a href="/posts/">ls posts</a>
+    <span class="sep">·</span>
+    <button class="tool-btn" type="button" data-open-palette>search <kbd>/</kbd></button>
+  </p>
+</Base>

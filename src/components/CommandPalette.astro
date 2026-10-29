@@ -1,0 +1,151 @@
+<dialog class="palette" id="palette" aria-label="Command palette">
+  <div class="palette-box">
+    <div class="palette-input">
+      <span class="palette-prompt" aria-hidden="true">❯</span>
+      <input
+        type="text"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="palette-list"
+        aria-autocomplete="list"
+        aria-label="Search posts, tags, pages, and actions"
+        placeholder="jump to…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd>esc</kbd>
+    </div>
+    <ul id="palette-list" role="listbox" aria-label="Results"></ul>
+    <div class="palette-foot" aria-hidden="true">
+      <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+      <span><kbd>↵</kbd> open</span>
+    </div>
+  </div>
+</dialog>
+
+<style is:global>
+  .palette {
+    width: min(38rem, calc(100vw - 2rem));
+    max-height: min(32rem, calc(100dvh - 6rem));
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--surface);
+    color: var(--fg);
+    box-shadow:
+      0 24px 64px -16px oklch(0 0 0 / 0.45),
+      0 0 0 1px color-mix(in oklch, var(--violet) 20%, transparent),
+      0 0 48px -12px color-mix(in oklch, var(--violet) var(--glow-mix), transparent);
+    overflow: hidden;
+  }
+  .palette::backdrop {
+    background: color-mix(in oklch, var(--bg) 55%, transparent);
+    backdrop-filter: blur(4px);
+  }
+  .palette[open] {
+    animation: palette-in 0.18s var(--ease-out);
+  }
+  @keyframes palette-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.985);
+    }
+  }
+  .palette-box {
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+  }
+  .palette-input {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .palette-prompt {
+    color: var(--lime);
+  }
+  .palette-input input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    color: var(--fg);
+    font: inherit;
+    font-size: var(--step-0);
+    caret-color: var(--magenta);
+  }
+  .palette-input input::placeholder {
+    color: var(--fg-faint);
+  }
+  #palette-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.4rem;
+    list-style: none;
+    scroll-padding-block: 0.4rem;
+  }
+  #palette-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+  }
+  #palette-list li[aria-selected='true'] {
+    background: var(--surface-2);
+    box-shadow: inset 2px 0 0 var(--magenta);
+  }
+  #palette-list .p-kind {
+    flex: none;
+    width: 3.5rem;
+    color: var(--fg-muted);
+    font-size: var(--step--2);
+  }
+  #palette-list .p-kind[data-kind='post'] {
+    color: var(--cyan);
+  }
+  #palette-list .p-kind[data-kind='tag'] {
+    color: var(--violet);
+  }
+  #palette-list .p-kind[data-kind='action'] {
+    color: var(--amber);
+  }
+  #palette-list .p-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #palette-list .p-label mark {
+    background: none;
+    color: var(--magenta);
+    font-weight: 700;
+  }
+  #palette-list .p-hint {
+    flex: none;
+    color: var(--fg-faint);
+    font-size: var(--step--2);
+  }
+  #palette-list .p-empty {
+    color: var(--fg-muted);
+    cursor: default;
+  }
+  .palette-foot {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.55rem 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--fg-faint);
+    font-size: var(--step--2);
+  }
+  .palette-foot kbd {
+    margin-right: 0.2rem;
+  }
+</style>

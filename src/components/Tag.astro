@@ -1,0 +1,11 @@
+---
+import { tagHue, tagUrl } from '../lib/posts';
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<a class="tag" href={tagUrl(tag)} data-hue={tagHue(tag)}>{tag}</a>

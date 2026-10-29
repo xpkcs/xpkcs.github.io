@@ -1,0 +1,13 @@
+{
+  "types": {
+    "title": "text",
+    "date": "date",
+    "updated": "date",
+    "description": "text",
+    "tags": "tags",
+    "kind": "text",
+    "draft": "checkbox",
+    "collapsible": "checkbox",
+    "slug": "text"
+  }
+}

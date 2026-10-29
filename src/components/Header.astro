@@ -1,0 +1,33 @@
+---
+import { NAV } from '../lib/site';
+
+// Render the current route as a shell path: ~/xpkcs/posts/some-post
+// (the 404 page is served at arbitrary URLs, so it gets no path)
+const segments = Astro.url.pathname.startsWith('/404') ? [] : Astro.url.pathname.split('/').filter(Boolean);
+const crumbs = segments.map((seg, i) => ({
+  label: decodeURIComponent(seg),
+  href: `/${segments.slice(0, i + 1).join('/')}/`,
+}));
+const current = (href: string) => Astro.url.pathname.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="prompt">
+      <a class="home glow" href="/" aria-label="xpkcs, home">~/xpkcs</a>
+      <span class="path">{crumbs.map((c) => <>/<a href={c.href}>{c.label}</a></>)}</span>
+      <span class="caret" aria-hidden="true"></span>
+    </div>
+    <nav class="site-nav" aria-label="Main">
+      {NAV.map((item) => <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>)}
+    </nav>
+    <div class="header-tools">
+      <button class="tool-btn palette-hint" type="button" data-open-palette aria-label="Open command palette">
+        <kbd>⌘K</kbd>
+      </button>
+      <button class="tool-btn" type="button" data-theme-toggle aria-label="Toggle color theme">
+        <span aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </div>
+</header>

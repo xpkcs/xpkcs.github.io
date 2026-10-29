@@ -1,0 +1,30 @@
+---
+import Tag from './Tag.astro';
+import { isoDate, postUrl, vtName, type Post } from '../lib/posts';
+
+interface Props {
+  posts: Post[];
+  showDescription?: boolean;
+}
+
+const { posts, showDescription = true } = Astro.props;
+---
+
+<ol class="post-list" data-nav-list>
+  {
+    posts.map((post) => (
+      <li data-kind={post.data.kind}>
+        <time datetime={isoDate(post.data.date)}>{isoDate(post.data.date)}</time>
+        <a class="title" href={postUrl(post)} style={`view-transition-name: ${vtName(post)}`}>
+          {post.data.title}
+          {post.data.draft && <span class="kind"> [draft]</span>}
+        </a>
+        {showDescription && post.data.description && <p class="desc">{post.data.description}</p>}
+        <div class="row-meta">
+          {post.data.kind === 'essay' && <span class="kind">essay</span>}
+          {post.data.tags.map((tag) => <Tag tag={tag} />)}
+        </div>
+      </li>
+    ))
+  }
+</ol>

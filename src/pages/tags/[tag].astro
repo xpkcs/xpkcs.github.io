@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getTags, tagHue, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return [...(await getTags())].map(([tag, posts]) => ({ params: { tag }, props: { posts } }));
+}
+
+interface Props {
+  posts: Post[];
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<Base title={`#${tag}`} description={`Posts tagged ${tag}.`}>
+  <section class="page-head measure">
+    <h1>
+      <span class="tag glow" data-hue={tagHue(tag!)}>{tag}</span>
+    </h1>
+    <p class="lede">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+    <hr class="rule" />
+  </section>
+  <div class="measure">
+    <PostList posts={posts} />
+  </div>
+</Base>

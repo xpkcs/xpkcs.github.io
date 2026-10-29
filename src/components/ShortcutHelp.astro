@@ -1,0 +1,91 @@
+---
+const KEYS = [
+  ['⌘K', 'or Ctrl+K: command palette'],
+  ['/', 'command palette'],
+  ['j / k', 'next / previous post in a list'],
+  ['t', 'toggle light / dark'],
+  ['g h', 'go home'],
+  ['g p', 'go to posts'],
+  ['?', 'this help'],
+];
+---
+
+<dialog class="help" id="help" aria-labelledby="help-title">
+  <h2 id="help-title">keyboard</h2>
+  <dl>
+    {
+      KEYS.map(([k, v]) => (
+        <div>
+          <dt>
+            <kbd>{k}</kbd>
+          </dt>
+          <dd>{v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  <label class="help-switch">
+    <input type="checkbox" data-shortcuts-toggle checked />
+    single-key shortcuts (j, k, t, g, /, ?)
+  </label>
+  <form method="dialog">
+    <button class="tool-btn" type="submit">close <kbd>esc</kbd></button>
+  </form>
+</dialog>
+
+<style is:global>
+  .help {
+    width: min(26rem, calc(100vw - 2rem));
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--surface);
+    color: var(--fg);
+    box-shadow: 0 24px 64px -16px oklch(0 0 0 / 0.45);
+  }
+  .help::backdrop {
+    background: color-mix(in oklch, var(--bg) 55%, transparent);
+    backdrop-filter: blur(4px);
+  }
+  .help h2 {
+    margin: 0 0 1rem;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    letter-spacing: 0.04em;
+  }
+  .help h2::before {
+    content: '// ' / '';
+    color: var(--violet);
+  }
+  .help dl {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0 0 1.25rem;
+  }
+  .help dl div {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: baseline;
+  }
+  .help dd {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+  .help-switch {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--fg-muted);
+    cursor: pointer;
+  }
+  .help-switch input {
+    accent-color: var(--magenta);
+  }
+  .help form {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+</style>
